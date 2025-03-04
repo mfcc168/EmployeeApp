@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const API_URL = "https://mfcc.pythonanywhere.com/api/";
+import Constants from 'expo-constants';
+const API_URL = Constants.expoConfig?.extra?.API_URL;
 
 export const fetchProducts = async () => {
   try {

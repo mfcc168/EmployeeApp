@@ -3,6 +3,9 @@ import { Text, View, StyleSheet, Modal, TouchableOpacity, Switch, SafeAreaView, 
 import { CameraView, Camera } from 'expo-camera';
 import axios from 'axios';
 
+import Constants from 'expo-constants';
+const API_URL = Constants.expoConfig?.extra?.API_URL;
+
 export default function BarcodeScannerScreen() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [scanned, setScanned] = useState(false);
@@ -20,8 +23,8 @@ export default function BarcodeScannerScreen() {
   const updateInvoiceDate = async (invoiceNumber: string) => {
     try {
       const apiUrl = isDeliveryMode
-        ? 'https://mfcc.pythonanywhere.com/api/update-delivery-date/'
-        : 'https://mfcc.pythonanywhere.com/api/update-payment-date/';
+        ? `${API_URL}update-delivery-date/`
+        : `${API_URL}update-payment-date/`;
 
       const requestData = {
         number: invoiceNumber,
