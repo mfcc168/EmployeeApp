@@ -3,8 +3,9 @@ import { Text, View, StyleSheet, Modal, TouchableOpacity, Switch, SafeAreaView, 
 import { CameraView, Camera } from 'expo-camera';
 import axios from 'axios';
 
-import Constants from 'expo-constants';
-const API_URL = Constants.expoConfig?.extra?.API_URL;
+// import Constants from 'expo-constants';
+// const API_URL = Constants.expoConfig?.extra?.API_URL;
+const API_URL = 'https://mfcc.pythonanywhere.com/api/';
 
 export default function BarcodeScannerScreen() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);

@@ -17,6 +17,8 @@ export default {
       supportsTablet: true
     },
     android: {
+      package: "com.lafarge.employee",
+      versionCode: 1,
       permissions: ["CAMERA", "CAMERA_FOREGROUND_SERVICE"],
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
@@ -45,6 +47,9 @@ export default {
     },
     extra: {
       API_URL: process.env.API_URL,
+      eas: {
+        projectId: "4beaa717-15e7-497c-931a-878107baf1e1"
+      }
     },
   }
 };
