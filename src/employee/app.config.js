@@ -25,6 +25,9 @@ export default {
         backgroundColor: "#ffffff"
       }
     },
+    cli: {
+      appVersionSource: "remote"
+    },
     web: {
       bundler: "metro",
       output: "static",
@@ -46,7 +49,7 @@ export default {
       typedRoutes: true
     },
     extra: {
-      API_URL: process.env.API_URL,
+      API_URL: process.env.EXPO_PUBLIC_API_URL,
       eas: {
         projectId: "4beaa717-15e7-497c-931a-878107baf1e1"
       }
