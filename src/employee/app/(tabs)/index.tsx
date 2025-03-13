@@ -1,40 +1,32 @@
-// app/(tabs)/index.tsx
-import React, { useState, useEffect } from 'react';
-import { User } from 'firebase/auth'; // Import User type
+import React, { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
-import { auth } from '../firebaseConfig'; // Ensure this path is correct
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../../config/firebaseConfig';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 export default function HomeScreen() {
+  const { user, loading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Listen for authentication state changes
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message); // Extracts the error message safely
+        alert(error.message);
       } else {
-        alert("An unknown error occurred.");
+        alert('An unknown error occurred.');
       }
     }
   };
 
   const handleLogout = async () => {
-    await signOut(auth);
+    try {
+      await signOut(auth);
+    } catch (error) {
+      alert('Failed to log out.');
+    }
   };
 
   if (loading) {
@@ -48,13 +40,11 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       {user ? (
-        // Show home screen if user is logged in
         <View>
           <Text style={styles.title}>Welcome, {user.email}!</Text>
           <Button title="Logout" onPress={handleLogout} />
         </View>
       ) : (
-        // Show login form if user is not logged in
         <View>
           <Text style={styles.title}>Login</Text>
           <TextInput
