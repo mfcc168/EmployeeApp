@@ -81,7 +81,7 @@ export default function TabLayout() {
           name="bar_code_scanner"
           options={{
             title: 'Barcode',
-            tabBarButton: role === 'Clerk' ? undefined : () => null,
+            href: role === 'Clerk' ? null : undefined,
             tabBarIcon: ({ color }) => <Scan size={28} color={color} />,
           }}
         />
