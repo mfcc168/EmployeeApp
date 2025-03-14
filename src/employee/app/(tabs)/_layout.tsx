@@ -2,7 +2,7 @@ import { Tabs, Redirect } from 'expo-router';
 import React from 'react';
 import { Platform, ActivityIndicator, View } from 'react-native';
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
@@ -11,11 +11,12 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 
 import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { ClipboardList, PackageSearch, FileUser, Scan } from 'lucide-react-native';
-const config = require('../../gluestack-ui.config.json');
+const config = require('@/gluestack-ui.config.json');
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const { user, loading } = useAuth();
+  const { user, loading, role } = useAuth();
+
 
   // Show loading indicator while checking auth state
   if (loading) {
@@ -30,6 +31,7 @@ export default function TabLayout() {
   if (!user) {
     return <Redirect href="/login" />;
   }
+
 
   return (
     <GluestackUIProvider config={config}>
@@ -79,6 +81,7 @@ export default function TabLayout() {
           name="bar_code_scanner"
           options={{
             title: 'Barcode',
+            tabBarButton: role === 'Clerk' ? undefined : () => null,
             tabBarIcon: ({ color }) => <Scan size={28} color={color} />,
           }}
         />

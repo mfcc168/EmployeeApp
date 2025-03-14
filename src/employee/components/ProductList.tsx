@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, View, ActivityIndicator, Text, StyleSheet } from "react-native";
-import { fetchProducts } from "../api";
+import { fetchProducts } from "@/api";
 
 interface Product {
   id: number;

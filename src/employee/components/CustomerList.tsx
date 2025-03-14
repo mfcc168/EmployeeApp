@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, View, ActivityIndicator, Text, StyleSheet } from "react-native";
-import { fetchCustomers } from "../api";
+import { fetchCustomers } from "@/api";
 
 interface Customer {
   id: number;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, View, ActivityIndicator, Text, StyleSheet } from "react-native";
-import { fetchInvoices } from "../api";
+import { fetchInvoices } from "@/api";
 
 interface Invoice {
   id: number;

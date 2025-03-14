@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); // Pass the app instance
+export const db = getFirestore(app);
 
 const usersCollection = collection(db, "users");
 
@@ -23,5 +23,4 @@ getDocs(usersCollection)
   .catch((error) => console.error("Error fetching users:", error));
 
 export const auth = getAuth(app);
-export { db }; // Export Firestore instance if needed elsewhere
 export default app;

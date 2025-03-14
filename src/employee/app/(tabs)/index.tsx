@@ -1,25 +1,11 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { View, Text, TextInput, Button, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
-import { auth } from '../../config/firebaseConfig';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import React from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { View, Text, Button, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
+import { auth } from '@/config/firebaseConfig';
+import { signOut } from 'firebase/auth';
 
 export default function HomeScreen() {
-  const { user, loading } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert('An unknown error occurred.');
-      }
-    }
-  };
+  const { user, loading, name } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -39,30 +25,10 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {user ? (
+      {user && (
         <View>
-          <Text style={styles.title}>Welcome, {user.email}!</Text>
+          <Text style={styles.title}>Welcome, {name}!</Text>
           <Button title="Logout" onPress={handleLogout} />
-        </View>
-      ) : (
-        <View>
-          <Text style={styles.title}>Login</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-          <Button title="Login" onPress={handleLogin} />
         </View>
       )}
     </SafeAreaView>
