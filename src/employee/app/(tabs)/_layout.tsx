@@ -60,6 +60,7 @@ export default function TabLayout() {
           name="products"
           options={{
             title: 'Products',
+            href: role !== 'Salesman' ? null : undefined,
             tabBarIcon: ({ color }) => <PackageSearch size={28} color={color} />,
           }}
         />
@@ -67,6 +68,7 @@ export default function TabLayout() {
           name="invoices"
           options={{
             title: 'Invoices',
+            href: role !== 'Salesman' ? null : undefined,
             tabBarIcon: ({ color }) => <ClipboardList size={28} color={color} />,
           }}
         />
@@ -74,6 +76,7 @@ export default function TabLayout() {
           name="customers"
           options={{
             title: 'Customers',
+            href: role !== 'Salesman' ? null : undefined,
             tabBarIcon: ({ color }) => <FileUser size={28} color={color} />,
           }}
         />
@@ -81,7 +84,7 @@ export default function TabLayout() {
           name="bar_code_scanner"
           options={{
             title: 'Barcode',
-            href: role === 'Clerk' ? null : undefined,
+            href: role !== 'Clerk' ? null : undefined,
             tabBarIcon: ({ color }) => <Scan size={28} color={color} />,
           }}
         />
