@@ -11,6 +11,12 @@ export default function BarcodeScannerScreen() {
   const [scannedData, setScannedData] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isDeliveryMode, setIsDeliveryMode] = useState(true);
+  const [deliveryman, setDeliveryman] = useState('');
+
+  const deliverymen = [
+    { id: '1', name: 'Chris Pang' },
+    { id: '2', name: 'Johnson Wu' },
+  ];
 
   useEffect(() => {
     (async () => {
@@ -19,7 +25,7 @@ export default function BarcodeScannerScreen() {
     })();
   }, []);
 
-  const updateInvoiceDate = async (invoiceNumber: string) => {
+  const updateInvoice = async (invoiceNumber: string, deliveryMan: String) => {
     try {
       const apiUrl = isDeliveryMode
         ? `${API_URL}update-delivery-date/`
@@ -27,6 +33,7 @@ export default function BarcodeScannerScreen() {
 
       const requestData = {
         number: invoiceNumber,
+        deliveryman: deliveryMan,
         [isDeliveryMode ? 'delivery_date' : 'payment_date']: new Date().toISOString().split('T')[0],
       };
 
@@ -47,7 +54,7 @@ export default function BarcodeScannerScreen() {
     if (scanned) return;
 
     setScanned(true);
-    updateInvoiceDate(data);
+    updateInvoice(data, deliveryman);
     setIsModalVisible(true);
 
     // Reset scanner after a delay to prevent black screen issue
@@ -63,6 +70,27 @@ export default function BarcodeScannerScreen() {
         <Text style={styles.switchLabel}>Delivery</Text>
         <Switch value={!isDeliveryMode} onValueChange={() => setIsDeliveryMode((prev) => !prev)} />
         <Text style={styles.switchLabel}>Payment</Text>
+      </View>
+      <View style={styles.barContainer}>
+        {deliverymen.map((man) => (
+          <TouchableOpacity
+            key={man.id}
+            style={[
+              styles.barItem,
+              deliveryman === man.name && styles.selectedBarItem,
+            ]}
+            onPress={() => setDeliveryman(man.name)}
+          >
+            <Text
+              style={[
+                styles.barItemText,
+                deliveryman === man.name && styles.selectedBarItemText,
+              ]}
+            >
+              {man.name}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
 
       <View style={styles.cameraContainer}>
@@ -139,5 +167,28 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: 'white',
     fontSize: 16,
+  },
+  barContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  barItem: {
+    flex: 1,
+    padding: 12,
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+  },
+  selectedBarItem: {
+    backgroundColor: '#6200ee',
+  },
+  barItemText: {
+    color: '#000',
+  },
+  selectedBarItemText: {
+    color: '#fff',
   },
 });

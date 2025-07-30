@@ -1,28 +1,58 @@
-import { Image, StyleSheet, Platform, SafeAreaView } from 'react-native';
+import React from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { View, Text, Button, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
+import { auth } from '@/config/firebaseConfig';
+import { signOut } from 'firebase/auth';
 
 export default function HomeScreen() {
-  return (  
-      <SafeAreaView>
+  const { user, loading, name } = useAuth();
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      alert('Failed to log out.');
+    }
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
       </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {user && (
+        <View>
+          <Text style={styles.title}>Welcome, {name}!</Text>
+          <Button title="Logout" onPress={handleLogout} />
+        </View>
+      )}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    padding: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  input: {
+    width: '100%',
+    padding: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
   },
 });
